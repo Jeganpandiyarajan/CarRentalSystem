@@ -1,0 +1,44 @@
+create database carRentalDB;
+use carRentalDB;
+
+create table cars (
+	car_id int auto_increment primary key,
+    brand varchar(10),
+    model varchar(30),
+    year int,
+    availability boolean default true,
+    price_per_day int not null
+);
+ALTER TABLE cars
+MODIFY COLUMN price_per_day DECIMAL(10, 2) NOT NULL;
+
+INSERT INTO cars (brand, model, year, price_per_day, availability) 
+VALUES 
+('Tata', 'Nexon', 2022, 1500.00,true),
+('Hyundai', 'i10', 2020, 1200.00,true),
+('Maruti', 'Swift', 2021, 1000.00,true),
+('Mahindra', 'XUV500', 2019, 2000.00,true);
+
+select * from cars;
+
+create table customers(
+	customer_id int auto_increment primary key,
+    customer_name varchar(30) not null,
+    phone varchar(15) unique not null,
+    id_proof varchar(20) not null
+);
+
+create table rentals(
+	rental_id int auto_increment primary key,
+    car_id int ,
+    customer_id int,
+    rental_date date,
+    return_date date,
+    status enum('Rented','Returned','Cancelled') default 'Rented',
+    foreign key (car_id) references cars(car_id),
+    foreign key (customer_id) references customers(customer_id) 
+);
+
+select * from cars;
+select * from customers;
+select * from rentals;
